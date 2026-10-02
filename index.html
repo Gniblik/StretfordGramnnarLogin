@@ -3,105 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust Portal - Account Verification</title>
+    <title>Portal Login</title>
     <style>
-        * { box-sizing: border-box; }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f6;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-            flex-direction: column;
-            padding: 20px 0;
         }
-
-        /* Fake browser chrome */
-        .fake-browser {
-            width: 400px;
-            max-width: 90vw;
-            border-radius: 8px 8px 0 0;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-        .fake-toolbar {
-            background: #e8e8e8;
-            padding: 8px 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid #ccc;
-        }
-        .fake-dots { display: flex; gap: 5px; }
-        .fake-dots span {
-            width: 10px; height: 10px; border-radius: 50%;
-            display: inline-block;
-        }
-        .dot-red { background: #ff5f56; }
-        .dot-yellow { background: #ffbd2e; }
-        .dot-green { background: #27c93f; }
-        .fake-url-bar {
-            flex: 1;
-            background: #fff;
-            border-radius: 12px;
-            padding: 5px 10px;
-            font-size: 12px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: monospace;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        .fake-padlock { color: #2a9d2a; font-size: 12px; }
-
         .login-box {
             background: #ffffff;
             padding: 40px;
-            width: 400px;
-            max-width: 90vw;
-            border-radius: 0 0 8px 8px;
-        }
-        .brand-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .brand-logo {
-            width: 36px;
-            height: 36px;
             border-radius: 8px;
-            background: linear-gradient(135deg, #1a73c1, #2ea3d1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            font-family: Georgia, serif;
-        }
-        .brand-name {
-            font-size: 20px;
-            font-weight: bold;
-            color: #1a4d7a;
-            font-family: Georgia, serif;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 350px;
         }
         h2 {
-            margin: 0 0 8px;
+            margin-bottom: 24px;
             color: #333;
             text-align: center;
-            font-size: 18px;
-        }
-        .subtext {
-            text-align: center;
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 24px;
         }
         .textbox {
             margin-bottom: 20px;
@@ -115,6 +38,7 @@
         .textbox input {
             width: 100%;
             padding: 10px;
+            box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
@@ -122,65 +46,23 @@
         .btn {
             width: 100%;
             padding: 12px;
-            background-color: #1a73c1;
+            background-color: #007bff;
             border: none;
             border-radius: 4px;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
-        .btn:hover { background-color: #14568f; }
-        .btn:disabled { background-color: #7aa8cc; cursor: default; }
-
-        .spinner {
-            width: 16px; height: 16px;
-            border: 2px solid rgba(255,255,255,0.5);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            display: none;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        #result {
-            margin-top: 20px;
-            padding: 12px;
-            background: #ffe6e6;
-            border-radius: 4px;
-            display: none;
-            font-size: 14px;
-            white-space: pre-line;
+        .btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<div class="fake-browser">
-    <div class="fake-toolbar">
-        <div class="fake-dots">
-            <span class="dot-red"></span>
-            <span class="dot-yellow"></span>
-            <span class="dot-green"></span>
-        </div>
-        <div class="fake-url-bar">
-            <span class="fake-padlock">🔒</span>
-            <span>https://trustportal-secure-login.com/verify</span>
-        </div>
-    </div>
-</div>
-
 <div class="login-box">
-    <div class="brand-row">
-        <div class="brand-logo">T</div>
-        <div class="brand-name">Trust Portal</div>
-    </div>
-    <h2>Verify Your Account</h2>
-    <p class="subtext">Classroom access will be suspended if not verified today.</p>
-
+    <h2>Account Sign In</h2>
+    <!-- Notice action="#" means it goes nowhere. onsubmit intercepts it safely -->
     <form action="#" onsubmit="showAlert(event)">
         <div class="textbox">
             <label for="username">Username or Email</label>
@@ -190,38 +72,24 @@
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="enter your password" required>
         </div>
-        <button type="submit" class="btn" id="loginBtn">
-            <span class="spinner" id="spinner"></span>
-            <span id="btnText">Verify Account</span>
-        </button>
+        <button type="submit" class="btn">Log In</button>
     </form>
-
-    <div id="result"></div>
 </div>
 
 <script>
     function showAlert(event) {
-        event.preventDefault();
+        event.preventDefault(); // Stops the page from refreshing
         const email = document.getElementById('username').value;
         const pass = document.getElementById('password').value;
-        const btn = document.getElementById('loginBtn');
-        const spinner = document.getElementById('spinner');
-        const btnText = document.getElementById('btnText');
-        const box = document.getElementById('result');
-
-        btn.disabled = true;
-        spinner.style.display = 'inline-block';
-        btnText.textContent = 'Verifying...';
-
-        setTimeout(() => {
-            box.style.display = 'block';
-            box.innerText = `🚨 SIMULATION CAPTURE!\n\nIf this were a real phishing site, the attacker would now have:\n📧 Email: ${email}\n🔑 Password: ${pass}\n\nThis page never sent your data anywhere - it only displayed it here.\nAlways check the URL bar before logging in!`;
-            btn.disabled = false;
-            spinner.style.display = 'none';
-            btnText.textContent = 'Verify Account';
-        }, 900);
+        
+        // Safety visual pop-up to show students how a backend would steal the data
+        alert(`🚨 SIMULATION CAPTURE! \n\nIf this were a real phishing site, the attacker would have just received:\n📧 Email: ${email}\n🔑 Password: ${pass}\n\nAlways check the URL bar before logging in!`);
     }
 </script>
 
 </body>
 </html>
+
+
+
+
