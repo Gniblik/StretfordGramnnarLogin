@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Login</title>
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f6;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
         .login-box {
@@ -19,15 +20,48 @@
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 350px;
+            width: 360px;
+        }
+        .logo-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .logo-circle {
+            width: 34px; height: 34px;
+            background: #007bff;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .logo-row strong {
+            font-size: 15px;
+            color: #333;
         }
         h2 {
-            margin-bottom: 24px;
+            margin: 0 0 6px;
             color: #333;
             text-align: center;
+            font-size: 19px;
         }
+
+        /* WARNING SIGN: generic greeting rather than the student's actual name */
+        .greeting {
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
         .textbox {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
         .textbox label {
             display: block;
@@ -56,12 +90,61 @@
         .btn:hover {
             background-color: #0056b3;
         }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            color: #555;
+        }
+        .remember-row input {
+            margin: 0;
+        }
+        .remember-row label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .links-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-top: 14px;
+        }
+        .links-row a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .links-row a:hover {
+            text-decoration: underline;
+        }
+
+        /* WARNING SIGN: subtle grammar/spelling slips in body copy */
+        .fine-print {
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            margin-top: 16px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
 
 <div class="login-box">
-    <h2>Account Sign In</h2>
+    <div class="logo-row">
+        <div class="logo-circle">P</div>
+        <strong>Portal</strong>
+    </div>
+    <h2>Confirm Your Details</h2>
+
+    <!-- WARNING SIGN: generic "Dear Student" greeting, vague reference to "the form", no real name -->
+    <div class="greeting">
+        Dear Student, please login below to confirm you recieved this weeks announcment before the deadline.
+    </div>
+
     <!-- Notice action="#" means it goes nowhere. onsubmit intercepts it safely -->
     <form action="#" onsubmit="showAlert(event)">
         <div class="textbox">
@@ -72,8 +155,21 @@
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="enter your password" required>
         </div>
+        <div class="remember-row">
+            <input type="checkbox" id="rememberme">
+            <label for="rememberme">Remember School ID and Username</label>
+        </div>
         <button type="submit" class="btn">Log In</button>
+        <div class="links-row">
+            <a href="#" onclick="return false;">Forgotten Login Details?</a>
+            <a href="#" onclick="return false;">Need Help?</a>
+        </div>
     </form>
+
+    <!-- WARNING SIGN: subtle spelling/grammar errors a careless copy-paste leaves behind -->
+    <div class="fine-print">
+        By continue to use this portal you confirm your informations is correct. If you do not login before the deadline your teacher will be notifyed.
+    </div>
 </div>
 
 <script>
@@ -81,15 +177,12 @@
         event.preventDefault(); // Stops the page from refreshing
         const email = document.getElementById('username').value;
         const pass = document.getElementById('password').value;
-        
-        // Safety visual pop-up to show students how a backend would steal the data
-        alert(`🚨 SIMULATION CAPTURE! \n\nIf this were a real phishing site, the attacker would have just received:\n📧 Email: ${email}\n🔑 Password: ${pass}\n\nAlways check the URL bar before logging in!`);
+
+        // Local-only pop-up to show students how a backend would steal the data.
+        // Nothing here is ever sent anywhere.
+        alert(`!!!!YOU'VE BEEN HACKED!!!! \n\nIf this was a real phishing site an attacker would have just gained access to your username and password!!!!\n\nEmail: ${email}\n\nPassword: ${pass}`);
     }
 </script>
 
 </body>
 </html>
-
-
-
-
