@@ -91,6 +91,22 @@
             background-color: #0056b3;
         }
 
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            color: #555;
+        }
+        .remember-row input {
+            margin: 0;
+        }
+        .remember-row label {
+            margin: 0;
+            cursor: pointer;
+        }
+
         .links-row {
             display: flex;
             justify-content: space-between;
@@ -112,6 +128,74 @@
             text-align: center;
             margin-top: 16px;
             line-height: 1.6;
+        }
+
+        /* --- "Hacked" reveal overlay --- */
+        .hack-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            font-family: 'Courier New', monospace;
+        }
+        .hack-overlay.show {
+            display: flex;
+            animation: flicker 0.15s steps(2) 3;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        .hack-terminal {
+            width: 90%;
+            max-width: 520px;
+            background: #0a0a0a;
+            border: 1px solid #00ff6a;
+            border-radius: 6px;
+            box-shadow: 0 0 25px rgba(0,255,106,0.35);
+            padding: 20px 24px;
+            color: #00ff6a;
+        }
+        .hack-title {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            text-shadow: 0 0 8px rgba(0,255,106,0.8);
+        }
+        .hack-line {
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            min-height: 1.8em;
+        }
+        .hack-cursor {
+            display: inline-block;
+            width: 8px;
+            background: #00ff6a;
+            animation: blink 0.8s steps(1) infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .hack-close {
+            margin-top: 18px;
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid #00ff6a;
+            color: #00ff6a;
+            font-family: inherit;
+            font-size: 13px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .hack-close:hover {
+            background: #00ff6a;
+            color: #000;
         }
     </style>
 </head>
@@ -139,7 +223,10 @@
             <label for="password">Password</label>
             <input type="password" id="password" placeholder="enter your password" required>
         </div>
-
+        <div class="remember-row">
+            <input type="checkbox" id="rememberme">
+            <label for="rememberme">Remember me</label>
+        </div>
         <button type="submit" class="btn">Log In</button>
         <div class="links-row">
             <a href="#" onclick="return false;">Forgotten Login Details?</a>
@@ -153,15 +240,61 @@
     </div>
 </div>
 
+<!-- Local-only reveal screen. Nothing here is ever sent anywhere. -->
+<div class="hack-overlay" id="hackOverlay">
+    <div class="hack-terminal">
+        <div class="hack-title">⚠ SIMULATION: CREDENTIALS CAPTURED</div>
+        <div class="hack-line" id="hackLines"><span class="hack-cursor">&nbsp;</span></div>
+        <button class="hack-close" onclick="document.getElementById('hackOverlay').classList.remove('show')">CLOSE SIMULATION</button>
+    </div>
+</div>
+
 <script>
     function showAlert(event) {
         event.preventDefault(); // Stops the page from refreshing
         const email = document.getElementById('username').value;
         const pass = document.getElementById('password').value;
 
-        // Local-only pop-up to show students how a backend would steal the data.
-        // Nothing here is ever sent anywhere.
-        alert(`!!!!YOU'VE BEEN HACKED!!!! \n\nIf this was a real phishing site an attacker would have just gained access to your username and password!!!!\n\nEmail: ${email}\n\nPassword: ${pass}`);
+        const script = [
+            "> connecting to local-demo...",
+            "> intercepting form submission...",
+            `> captured email: ${email}`,
+            `> captured password: ${pass}`,
+            "",
+            "This is a CLASSROOM SIMULATION.",
+            "A real phishing page would now have your login",
+            "and could use it to access your real account."
+        ];
+
+        const overlay = document.getElementById('hackOverlay');
+        const lineEl = document.getElementById('hackLines');
+        lineEl.textContent = '';
+        overlay.classList.add('show');
+
+        // Simple typewriter effect, line by line
+        let lineIndex = 0;
+        let charIndex = 0;
+        let built = '';
+
+        function typeNext() {
+            if (lineIndex >= script.length) {
+                lineEl.innerHTML = built + '<span class="hack-cursor">&nbsp;</span>';
+                return;
+            }
+            const currentLine = script[lineIndex];
+            if (charIndex < currentLine.length) {
+                built += currentLine[charIndex];
+                charIndex++;
+                lineEl.innerHTML = built + '<span class="hack-cursor">&nbsp;</span>';
+                setTimeout(typeNext, 12);
+            } else {
+                built += '\n';
+                lineIndex++;
+                charIndex = 0;
+                setTimeout(typeNext, 80);
+            }
+        }
+        typeNext();
     }
 </script>
 
